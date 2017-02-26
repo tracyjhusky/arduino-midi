@@ -13,18 +13,22 @@ void lights() {
 }
 
 void setup() {
+  Serial.begin(38400);
+
   strip.begin();
   for(int i = 0; i < PIXELS; i++) {
-    strip.setPixelColor(i, 255, 0, 0);
+    strip.setPixelColor(i, 63, 0, 0);
   }
   strip.show();
 }
 
 void loop() {
   delay(1000);
-  if(count < PIXELS) {
-    strip.setPixelColor(count, 0, 255, 255);
-    strip.show();
-    count++;
+  if(Serial.available() > 2) {
+    if(count < PIXELS) {
+      strip.setPixelColor(count, 0, 63, 63);
+      strip.show();
+      count++;
+    }
   }
 }
