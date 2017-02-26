@@ -1,10 +1,9 @@
 #include <Adafruit_NeoPixel.h>
 #include <MIDI.h>
-
-const int BAUD = 38400;
+\
 
 const int PIXELS = 60;
-const int PIN = 6;
+const int PIN = 8;
 
 int count = 0;
 
@@ -12,7 +11,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
 
 MIDI_CREATE_DEFAULT_INSTANCE();
 
-void consumeNote(byte channel, byte pitch, byte velocity) {
+void lights() {
   if(count < PIXELS) {
     strip.setPixelColor(count, 0, 255, 255);
     strip.show();
@@ -22,10 +21,8 @@ void consumeNote(byte channel, byte pitch, byte velocity) {
 
 void setup() {
   MIDI.begin(MIDI_CHANNEL_OMNI);
-  MIDI.setHandleNoteOn(consumeNote);
 
-  Serial.begin(BAUD);
-  Serial.print('Started...');
+  Serial.begin(115200));
 
   strip.begin();
   for(int i = 0; i < PIXELS; i++) {
@@ -35,5 +32,7 @@ void setup() {
 }
 
 void loop() {
-  MIDI.read();
+  if(MIDI.read()) {
+    lights();
+  }
 }
