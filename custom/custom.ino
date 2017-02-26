@@ -1,4 +1,4 @@
-#include <Adafruit_Neopixel.h>
+#include <Adafruit_NeoPixel.h>
 #include <MIDI.h>
 
 const int BAUD = 38400;
@@ -7,12 +7,14 @@ const int PIXELS = 60;
 const int PIN = 6;
 
 
-Adafruit_Neopixel strip = Adafruit_Neopixel(PIXELS, PIN);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
 
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 void consumeNote(byte channel, byte pitch, byte velocity) {
-  strip.setPixelColor(4, 0, 255, 255);
+  for(int i = 0; i < PIXELS; i++) {
+    strip.setPixelColor(i, 0, 255, 255);
+  }
   strip.show();
 }
 
@@ -24,7 +26,9 @@ void setup() {
   Serial.print('Started...');
 
   strip.begin();
-  strip.setPixelColor(4, 255, 0, 0);
+  for(int i = 0; i < PIXELS; i++) {
+    strip.setPixelColor(i, 255, 0, 0);
+  }
   strip.show();
 }
 
