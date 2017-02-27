@@ -33,7 +33,7 @@ void loop() {
     velocity = Serial.read();
     if(command == 144) {
       for(int i = 0; i < PIXELS; i++) {
-        setHSV(i, velocity * 2.5, 1, .5);
+        setHSV(i, velocity * 2.5, 1, note / 127);
       }
     }
     else {
