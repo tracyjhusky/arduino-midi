@@ -36,6 +36,10 @@ void loop() {
         setHSV(i, velocity * 2, .5, .5);
       }
     }
+    else {
+      strip.setPixelColor(i, 0 , 0, 0);
+    }
+    strip.show();
   }
 }
 
