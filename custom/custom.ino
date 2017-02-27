@@ -14,6 +14,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
 
 void rainbow() {
   for(int i = 0; i < 360; i++) {
+    delay(10);
     for(int j = 0; j < PIXELS; j++) {
       strip.setHSV(j, i, 1, .5);
     }
