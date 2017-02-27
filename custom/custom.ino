@@ -14,8 +14,9 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
 
 void rainbow() {
   for(int i = 0; i < 360; i++) {
+    uint32_t color = toHSV(i, 1, .5);
     for(int j = 0; j < PIXELS; j++) {
-      strip.setHSV(j, i, 1, .5);
+      strip.setPixelColor(j, color);
     }
     strip.show();
   }
@@ -23,9 +24,10 @@ void rainbow() {
 
 void line() {
   for(int i = 0; i < PIXELS; i++) {
+    uint32_t color = toHSV(i * 360 / PIXELS, 1, .5);
     for(int j = 0; j < PIXELS; j++) {
       if(i == j) {
-        setHSV(j, i * 360 / PIXELS, 1, .5);
+        strip.setPixelColor(j, color);
       }
       else {
         strip.setPixelColor(j, 0, 0, 0);
