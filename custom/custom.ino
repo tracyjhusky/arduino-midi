@@ -12,8 +12,12 @@ int count = 0;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
 
-void lights() {
-
+void rainbow() {
+  for(int i = 0; i < 360; i++) {
+    for(int j = 0; j < PIXELS; i++) {
+      strip.setHSV(j, i, 1, .5);
+    }
+  }
 }
 
 void setup() {
@@ -24,6 +28,8 @@ void setup() {
     strip.setPixelColor(i, 63, 0, 0);
   }
   strip.show();
+  delay(1000);
+  rainbow();
 }
 
 void loop() {
@@ -33,7 +39,7 @@ void loop() {
     velocity = Serial.read();
     if(command == 144) {
       for(int i = 0; i < PIXELS; i++) {
-        setHSV(i, velocity * 2.5, 1, note / 127);
+        setHSV(i, velocity * 2.5, 1, .5);
       }
     }
     else {
