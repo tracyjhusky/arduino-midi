@@ -14,16 +14,15 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
 
 void rainbow() {
   for(int i = 0; i < 360; i++) {
-    delay(10);
     for(int j = 0; j < PIXELS; j++) {
       strip.setHSV(j, i, 1, .5);
     }
+    strip.show();
   }
 }
 
 void line() {
   for(int i = 0; i < PIXELS; i++) {
-    delay(10);
     for(int j = 0; j < PIXELS; j++) {
       if(i == j) {
         setHSV(j, i * 360 / PIXELS, 1, .5);
@@ -31,6 +30,7 @@ void line() {
       else {
         strip.setPixelColor(j, 0, 0, 0);
       }
+      strip.show();
     }
   }
 }
@@ -54,13 +54,15 @@ void loop() {
     note = Serial.read();
     velocity = Serial.read();
     if(command == 144) {
+      uint32_t color = toHSV(velocity * 2.5, 1, .5);
       for(int i = 0; i < PIXELS; i++) {
-        setHSV(i, velocity * 2.5, 1, .5);
+        strip.setPixelColor(i, color);
       }
     }
     else {
+      uint32_t color = toHSV(velocity * 2.5, 1, .5);
       for(int i = 0; i < PIXELS; i++) {
-        strip.setPixelColor(i, 0 , 0, 0);
+        strip.setPixelColor(i, color);
       }
     }
     strip.show();
@@ -76,7 +78,7 @@ double absv(double n) {
   }
 }
 
-void setHSV(int i, int h, double s, double v) {
+uint32_t toHSV(int i, int h, double s, double v) {
   double c = v * s;
   double x = c * (1 - absv((h / 60) % 2 - 1));
   double m = v - c;
@@ -119,5 +121,5 @@ void setHSV(int i, int h, double s, double v) {
   int green = (g + m) * 255;
   int blue = (b + m) * 255;
 
-  strip.setPixelColor(i, red, green, blue);
+  return strip.Color(red, green, blue);
 }
