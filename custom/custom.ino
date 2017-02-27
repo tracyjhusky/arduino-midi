@@ -1,8 +1,12 @@
 #include <Adafruit_NeoPixel.h>
 
 
-const int PIXELS = 60;
+const int PIXELS = 150;
 const int PIN = 8;
+
+byte command;
+byte note;
+byte velocity;
 
 int count = 0;
 
@@ -23,9 +27,12 @@ void setup() {
 }
 
 void loop() {
-  delay(1000);
   if(Serial.available() > 2) {
-    if(count < PIXELS) {
+    command = Serial.read();
+    note = Serial.read();
+    velocity = Serial.read();
+
+    if(command == 128 && count < PIXELS) {
       strip.setPixelColor(count, 0, 63, 63);
       strip.show();
       count++;
