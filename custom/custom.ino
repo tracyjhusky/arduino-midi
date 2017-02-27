@@ -33,7 +33,13 @@ void loop() {
     velocity = Serial.read();
     if(command == 128) {
       for(int i = 0; i < PIXELS; i++) {
-        setHSV(i, velocity * 2.83, 0.5, 0.5);
+        //setHSV(i, velocity * 2.83, 0.5, 0.5);
+        if(velocity > 40) {
+          strip.setPixelColor(i, 255, 0, 255);
+        }
+        else {
+          strip.setPixelColor(i, 0, 255, 255);
+        }
       }
     }
     else {
@@ -92,12 +98,6 @@ void setHSV(int i, int h, double s, double v) {
     g = 0;
     b = x;
   }
-
-  Serial.write(red);
-  Serial.write(" - ");
-  Serial.write(blue);
-  Serial.write(" - ");
-  Serial.write(green);
 
   int red = (r + m) * 255;
   int green = (g + m) * 255;
