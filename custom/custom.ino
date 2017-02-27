@@ -21,6 +21,20 @@ void rainbow() {
   }
 }
 
+void line() {
+  for(int i = 0; i < PIXELS; i++) {
+    delay(10);
+    for(int j = 0; j < PIXELS; j++) {
+      if(i == j) {
+        setHSV(j, i * 360 / PIXELS, 1, .5);
+      }
+      else {
+        strip.setPixelColor(j, 0, 0, 0);
+      }
+    }
+  }
+}
+
 void setup() {
   Serial.begin(38400);
 
@@ -30,6 +44,7 @@ void setup() {
   }
   strip.show();
   delay(1000);
+  line();
   rainbow();
 }
 
