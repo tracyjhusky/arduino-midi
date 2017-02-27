@@ -32,13 +32,12 @@ void loop() {
     note = Serial.read();
     velocity = Serial.read();
     if(command == 128) {
-      if(velocity > 40) {
-        Serial.write("fuck");
+      if(velocity == 34) {
         for(int i = 0; i < PIXELS; i++) {
           strip.setPixelColor(i, 63, 0, 63);
         }
       }
-      else {
+      else if (velocity == 60) {
         for(int i = 0; i < PIXELS; i++) {
           strip.setPixelColor(i, 0, 63, 63);
         }
