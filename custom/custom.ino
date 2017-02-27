@@ -31,16 +31,9 @@ void loop() {
     command = Serial.read();
     note = Serial.read();
     velocity = Serial.read();
-    if(command == 128) {
-      if(velocity == 34) {
-        for(int i = 0; i < PIXELS; i++) {
-          strip.setPixelColor(i, 63, 0, 63);
-        }
-      }
-      else if (velocity == 60) {
-        for(int i = 0; i < PIXELS; i++) {
-          strip.setPixelColor(i, 0, 63, 63);
-        }
+    if(command == 144) {
+      for(int i = 0; i < PIXELS; i++) {
+        setHSV(i, velocity * 2.5, 1, .5);
       }
     }
     else {
