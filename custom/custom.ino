@@ -33,7 +33,7 @@ void loop() {
     velocity = Serial.read();
 
     if(command == 128 && count < PIXELS) {
-      strip.setPixelColor(count, 0, 63, 63);
+      strip.setPixelColor(count, note, 0, 0);
       strip.show();
       count++;
     }
