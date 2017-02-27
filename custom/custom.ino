@@ -39,9 +39,18 @@ void loop() {
   }
 }
 
+double absv(double n) {
+  if (n > 0) {
+    return n;
+  }
+  else {
+    return n * -1;
+  }
+}
+
 void setHSV(int i, int h, double s, double v) {
   double c = v * s;
-  double x = c * (1 - Math.fabs((h / 60) % 2 - 1));
+  double x = c * (1 - absv((h / 60) % 2 - 1));
   double m = v - c;
   double r;
   double g;
