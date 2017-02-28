@@ -42,12 +42,9 @@ void setup() {
 
   strip.begin();
   for(int i = 0; i < PIXELS; i++) {
-    strip.setPixelColor(i, 63, 0, 0);
+    strip.setPixelColor(i, 0, 24, 0);
   }
   strip.show();
-  delay(1000);
-  line();
-  rainbow();
 }
 
 void loop() {
