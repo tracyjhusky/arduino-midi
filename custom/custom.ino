@@ -89,7 +89,7 @@ double absv(double n) {
   }
 }
 
-uint32_t toHSV(int h, double s, double v) {
+uint32_t toHSV(double h, double s, double v) {
   double c = v * s;
   double x = c * (1 - absv(rem(h / 60, 2) - 1));
    // std::cout << x;
