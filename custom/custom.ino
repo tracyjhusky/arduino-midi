@@ -37,10 +37,12 @@ void loop() {
 
 void autoShow() {
   for(int i = 0; i < PIXELS; i ++) {
-    brightness[i] -= .01;
+    if (brightness[i] >= .01) {
+      brightness[i] -= .01;
+    }
   }
   int offset = note % 12;
-  if(command == 144) { 
+  if(command == 144) {
     for(int i = offset; i < PIXELS; i += 12) {
       brightness[i] = .5;
     }
