@@ -71,6 +71,15 @@ void loop() {
   }
 }
 
+double rem(double q, int d) {
+  if(q < d) {
+      return q;
+  }
+  else {
+      rem(q - d, d);
+  }
+}
+
 double absv(double n) {
   if (n > 0) {
     return n;
@@ -80,9 +89,10 @@ double absv(double n) {
   }
 }
 
-uint32_t toHSV(int i, int h, double s, double v) {
+uint32_t toHSV(int h, double s, double v) {
   double c = v * s;
-  double x = c * (1 - absv((h / 60) % 2 - 1));
+  double x = c * (1 - absv(rem(h / 60, 2) - 1));
+   // std::cout << x;
   double m = v - c;
   double r;
   double g;
