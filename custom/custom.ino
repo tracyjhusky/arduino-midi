@@ -9,33 +9,9 @@ byte note;
 byte velocity;
 
 int count = 0;
+double brightness[PIXELS] = {};
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
-
-void rainbow() {
-  for(int i = 0; i < 360; i++) {
-    uint32_t color = toHSV(i, 1, .5);
-    for(int j = 0; j < PIXELS; j++) {
-      strip.setPixelColor(j, color);
-    }
-    strip.show();
-  }
-}
-
-void line() {
-  for(int i = 0; i < PIXELS; i++) {
-    uint32_t color = toHSV(i * 360 / PIXELS, 1, .5);
-    for(int j = 0; j < PIXELS; j++) {
-      if(i == j) {
-        strip.setPixelColor(j, color);
-      }
-      else {
-        strip.setPixelColor(j, 0, 0, 0);
-      }
-      strip.show();
-    }
-  }
-}
 
 void setup() {
   Serial.begin(38400);
@@ -52,19 +28,46 @@ void loop() {
     command = Serial.read();
     note = Serial.read();
     velocity = Serial.read();
-    if(command == 144) {
-      uint32_t color = toHSV(velocity * 2.5, 1, .5);
-      for(int i = 0; i < PIXELS; i++) {
-        strip.setPixelColor(i, color);
-      }
-    }
-    else {
-      uint32_t color = toHSV(velocity * 2.5, 1, .5);
-      for(int i = 0; i < PIXELS; i++) {
-        strip.setPixelColor(i, color);
-      }
-    }
+
+    autoShow();
+    
     strip.show();
+  }
+}
+
+void autoShow() {
+  for(int i = 0; i < PIXELS; i ++) {
+    brightness[i] -= .01;
+  }
+  int offset = note % 12;
+  if(command == 144) {
+    for(int i = offset; i < PIXELS; i += 12) {
+      brightness[i] = .5;
+    }
+  }
+  else {
+    for(int i = offset; i < PIXELS; i += 12) {
+      brightness[i] = 0;
+    }
+  }
+
+  for(int i = 0; i < PIXELS; i ++) {
+    uint32_t color = toHSV((i % 12) * 30, 1, brightness[i]);
+    strip.setPixelColor(i, color);
+  }
+}
+
+void customShow() {
+  if(command == 144) {
+    uint32_t color = toHSV(velocity * 2.5, 1, .5);
+    for(int i = 0; i < PIXELS; i++) {
+      strip.setPixelColor(i, color);
+    }
+  }
+  else {
+    for(int i = 0; i < PIXELS; i++) {
+      strip.setPixelColor(i, 0, 0, 0);
+    }
   }
 }
 
