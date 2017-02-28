@@ -30,7 +30,7 @@ void loop() {
     velocity = Serial.read();
 
     autoShow();
-    
+
     strip.show();
   }
 }
@@ -40,7 +40,7 @@ void autoShow() {
     brightness[i] -= .01;
   }
   int offset = note % 12;
-  if(command == 144) {
+  if(command == 144) { 
     for(int i = offset; i < PIXELS; i += 12) {
       brightness[i] = .5;
     }
