@@ -24,7 +24,6 @@ void setup() {
 }
 
 void loop() {
-  delay(10);
   fade();
   if(Serial.available() > 2) {
     command = Serial.read();
@@ -40,7 +39,7 @@ void loop() {
 void fade() {
   for(int i = 0; i < PIXELS; i ++) {
     if (brightness[i] >= .01) {
-      brightness[i] -= .01;
+      brightness[i] = brightness[i] - .01;
     }
   }
 }
