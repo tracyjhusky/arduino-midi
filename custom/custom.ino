@@ -23,6 +23,47 @@ void setup() {
   strip.show();
 }
 
+void firework() {
+  double val = .33;
+  for (int i = 0; i < 500; i++) {
+    uint32_t color = toRGB(0, 0, val);
+    colorAll(color);
+    val -= .33/500;
+    delay(10);
+  }
+  flash(toRGB(0, 0, .33), 7);
+  sparkFade(50);
+}
+
+void flash(uint32_t color, int n) {
+  for (int i = 0; i < n; i++) {
+    colorAll(color);
+    delay(10);
+    colorAll(toRGB(0, 0, 0));
+  }
+}
+
+void sparkFade(int n) {
+  double val = .33;
+  for(int i = 0; i < n; i++) {
+    uint32_t color = toRGB(0, 0, val);
+    long r = random(10);
+    if (r === 0) {
+      strip.setPixelColor(i, color);
+    }
+    else {
+      strip.setPixelColor(i, 0, 0, 0);
+    }
+    delay(10);
+  }
+}
+
+void colorAll(uint32_t color) {
+  for(int i = 0; i < PIXELS; i++) {
+    strip.setPixelColor(i, color);
+  }
+}
+
 void loop() {
   fade();
   if(Serial.available() > 2) {
@@ -33,40 +74,6 @@ void loop() {
     light();
 
     strip.show();
-  }
-}
-
-void fade() {
-  for(int i = 0; i < PIXELS; i ++) {
-    if (brightness[i] >= .01) {
-      brightness[i] = brightness[i] - .01;
-    }
-  }
-}
-
-void light() {
-  for(int i = 0; i < PIXELS; i ++) {
-    uint32_t color = toHSV((i % 12) * 30, 1, brightness[i]);
-    strip.setPixelColor(i, color);
-  }
-}
-
-void autoShow() {
-  int offset = note % 12;
-  if(command == 144) {
-    for(int i = offset; i < PIXELS; i += 12) {
-      brightness[i] = .5;
-    }
-  }
-  else {
-    for(int i = offset; i < PIXELS; i += 12) {
-      brightness[i] = 0;
-    }
-  }
-
-  for(int i = 0; i < PIXELS; i ++) {
-    uint32_t color = toHSV((i % 12) * 30, 1, brightness[i]);
-    strip.setPixelColor(i, color);
   }
 }
 
@@ -102,7 +109,7 @@ double absv(double n) {
   }
 }
 
-uint32_t toHSV(double h, double s, double v) {
+uint32_t toRGB(double h, double s, double v) {
   double c = v * s;
   double x = c * (1 - absv(rem(h / 60, 2) - 1));
    // std::cout << x;
