@@ -30,7 +30,7 @@ void loop() {
     note = Serial.read();
     velocity = Serial.read();
 
-    autoShow();
+    light();
 
     strip.show();
   }
@@ -38,9 +38,16 @@ void loop() {
 
 void fade() {
   for(int i = 0; i < PIXELS; i ++) {
-    if (true) {
-      brightness[i] = 0;
+    if (brightness[i] >= .01) {
+      brightness[i] = brightness[i] - .01;
     }
+  }
+}
+
+void light() {
+  for(int i = 0; i < PIXELS; i ++) {
+    uint32_t color = toHSV((i % 12) * 30, 1, brightness[i]);
+    strip.setPixelColor(i, color);
   }
 }
 
