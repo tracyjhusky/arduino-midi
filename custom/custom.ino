@@ -38,8 +38,8 @@ void loop() {
 
 void fade() {
   for(int i = 0; i < PIXELS; i ++) {
-    if (brightness[i] >= .01) {
-      brightness[i] = brightness[i] - .01;
+    if (true) {
+      brightness[i] = 0;
     }
   }
 }
