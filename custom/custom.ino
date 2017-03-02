@@ -17,12 +17,10 @@ void setup() {
   Serial.begin(38400);
 
   strip.begin();
-  for(int i = 0; i < PIXELS; i++) {
-    strip.setPixelColor(i, 0, 24, 0);
+  for(int i = 1; i < 10; i++) {
+    strip.setPixelColor(i, 255, 255, 255);
   }
   strip.show();
-  delay(2000);
-  firework();
 }
 
 void firework() {
@@ -73,23 +71,21 @@ void colorAll(uint32_t color) {
 }
 
 void loop() {
-  /*
   if(Serial.available() > 2) {
     command = Serial.read();
     note = Serial.read();
     velocity = Serial.read();
 
-    light();
+    customShow();
 
     strip.show();
   }
-  */
 }
 
-/*
+
 void customShow() {
   if(command == 144) {
-    uint32_t color = toRGB(velocity * 2.5, 1, .5);
+    uint32_t color = toRGB(velocity * 2.5, 1, 1);
     for(int i = 0; i < PIXELS; i++) {
       strip.setPixelColor(i, color);
     }
@@ -100,7 +96,7 @@ void customShow() {
     }
   }
 }
-*/
+
 
 double rem(double q, int d) {
   if(q < d) {
