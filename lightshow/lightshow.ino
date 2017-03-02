@@ -1,74 +1,8 @@
-#include <Adafruit_NeoPixel>
+#include <Adafruit_NeoPixel.h>
 
 
 const int PIXELS = 150;
-const int PIN = 8;
-
-Color colors[PIXELS];
-
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
-
-void setup() {
-  strip.flush();
-  strip.begin();
-  spectrum(2);
-  render();
-}
-
-void spectrum(int p) {
-  for(int i = 0; i < PIXELS; i++) {
-    Color newColor = newColor.fromHSL((i * p * 360 / PIXELS) % 360, 1, .25);
-    colors[i] = newColor;
-  }
-}
-
-
-void loop() {
-  delay(10);
-  hueShift(1);
-  render();
-}
-
-void render() {
-  for(int i = 0; i < PIXELS; i++) {
-    strip.setPixelColor(i, colors[i].color());
-  }
-  strip.show();
-}
-
-void colorAll(Color color) {
-  for(int i = 0; i < PIXELS; i++) {
-    colors[i] = color;
-  }
-}
-
-void hueShift(int h) {
-  for(int i = 0; i < PIXELS; i++) {
-    Color newColor;
-    Color oldColor = colors[i];
-    colors[i] = newColor.fromHSL(oldColor.getHue() + h, oldColor.getSat(), oldColor.getLite());
-  }
-}
-
-double rem(double q, int d) {
-  if(q < d) {
-      return q;
-  }
-  else {
-      rem(q - d, d);
-  }
-}
-
-
-double absv(double n) {
-  if (n > 0) {
-    return n;
-  }
-  else {
-    return n * -1;
-  }
-}
-
+const int PIN = 6;
 
 class Color {
     int red, green, blue;
@@ -131,4 +65,68 @@ void Color::fromHSL(double h, double s, double l) {
   red = (r + m) * 255;
   green = (g + m) * 255;
   blue = (b + m) * 255;
+}
+
+
+Color colors[PIXELS];
+
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
+
+void spectrum(int p) {
+  for(int i = 0; i < PIXELS; i++) {
+    Color newColor = newColor.fromHSL((i * p * 360 / PIXELS) % 360, 1, .25);
+    colors[i] = newColor;
+  }
+}
+
+void render() {
+  for(int i = 0; i < PIXELS; i++) {
+    strip.setPixelColor(i, colors[i].color());
+  }
+  strip.show();
+}
+
+void colorAll(Color color) {
+  for(int i = 0; i < PIXELS; i++) {
+    colors[i] = color;
+  }
+}
+
+void hueShift(int h) {
+  for(int i = 0; i < PIXELS; i++) {
+    Color newColor;
+    Color oldColor = colors[i];
+    colors[i] = newColor.fromHSL(oldColor.getHue() + h, oldColor.getSat(), oldColor.getLite());
+  }
+}
+
+double rem(double q, int d) {
+  if(q < d) {
+      return q;
+  }
+  else {
+      rem(q - d, d);
+  }
+}
+
+
+double absv(double n) {
+  if (n > 0) {
+    return n;
+  }
+  else {
+    return n * -1;
+  }
+}
+
+void setup() {
+  strip.begin();
+  spectrum(2);
+  render();
+}
+
+void loop() {
+  delay(10);
+  hueShift(1);
+  render();
 }
