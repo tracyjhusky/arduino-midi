@@ -21,6 +21,8 @@ void setup() {
     strip.setPixelColor(i, 0, 24, 0);
   }
   strip.show();
+  delay(2000);
+  firework();
 }
 
 void firework() {
@@ -28,6 +30,7 @@ void firework() {
   for (int i = 0; i < 500; i++) {
     uint32_t color = toRGB(0, 0, val);
     colorAll(color);
+    strip.show();
     val -= .33/500;
     delay(10);
   }
@@ -38,22 +41,27 @@ void firework() {
 void flash(uint32_t color, int n) {
   for (int i = 0; i < n; i++) {
     colorAll(color);
+    strip.show();
     delay(10);
     colorAll(toRGB(0, 0, 0));
+    strip.show();
   }
 }
 
 void sparkFade(int n) {
   double val = .33;
-  for(int i = 0; i < n; i++) {
-    uint32_t color = toRGB(0, 0, val);
-    long r = random(10);
-    if (r == 0) {
-      strip.setPixelColor(i, color);
+  for(int j = 0; j < n; j++) {
+    for(int i = 0; i < PIXELS; i++) {
+      uint32_t color = toRGB(0, 0, val);
+      long r = random(10);
+      if (r == 0) {
+        strip.setPixelColor(i, color);
+      }
+      else {
+        strip.setPixelColor(i, 0, 0, 0);
+      }
     }
-    else {
-      strip.setPixelColor(i, 0, 0, 0);
-    }
+    strip.show();
     delay(10);
   }
 }
