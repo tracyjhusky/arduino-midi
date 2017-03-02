@@ -48,7 +48,7 @@ void sparkFade(int n) {
   for(int i = 0; i < n; i++) {
     uint32_t color = toRGB(0, 0, val);
     long r = random(10);
-    if (r === 0) {
+    if (r == 0) {
       strip.setPixelColor(i, color);
     }
     else {
@@ -65,7 +65,7 @@ void colorAll(uint32_t color) {
 }
 
 void loop() {
-  fade();
+  /*
   if(Serial.available() > 2) {
     command = Serial.read();
     note = Serial.read();
@@ -75,11 +75,13 @@ void loop() {
 
     strip.show();
   }
+  */
 }
 
+/*
 void customShow() {
   if(command == 144) {
-    uint32_t color = toHSV(velocity * 2.5, 1, .5);
+    uint32_t color = toRGB(velocity * 2.5, 1, .5);
     for(int i = 0; i < PIXELS; i++) {
       strip.setPixelColor(i, color);
     }
@@ -90,6 +92,7 @@ void customShow() {
     }
   }
 }
+*/
 
 double rem(double q, int d) {
   if(q < d) {
