@@ -3,6 +3,7 @@
 
 const int PIXELS = 150;
 const int PIN = 6;
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
 
 class Color {
     int red, green, blue;
@@ -69,8 +70,6 @@ void Color::fromHSL(double h, double s, double l) {
 
 
 Color colors[PIXELS];
-
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
 
 void spectrum(int p) {
   for(int i = 0; i < PIXELS; i++) {
