@@ -5,12 +5,31 @@ const int PIXELS = 150;
 const int PIN = 6;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXELS, PIN);
 
+double rem(double q, int d) {
+  if(q < d) {
+      return q;
+  }
+  else {
+      rem(q - d, d);
+  }
+}
+
+
+double absv(double n) {
+  if (n > 0) {
+    return n;
+  }
+  else {
+    return n * -1;
+  }
+}
+
 class Color {
     int red, green, blue;
     double hue, sat, lite;
   public:
     void fromHSL(double, double, double);
-    uint32_t color() {return strip.Color(r, g, b);}
+    uint32_t color() {return strip.Color(red, green, blue);}
     double getHue() {return hue;}
     double getSat() {return sat;}
     double getLite() {return lite;}
@@ -25,9 +44,9 @@ void Color::fromHSL(double h, double s, double l) {
   sat = s;
   lite = l;
 
-  double c = v * s;
+  double c = l * s;
   double x = c * (1 - absv(rem(h / 60, 2) - 1));
-  double m = v - c;
+  double m = l - c;
   double r;
   double g;
   double b;
@@ -73,7 +92,8 @@ Color colors[PIXELS];
 
 void spectrum(int p) {
   for(int i = 0; i < PIXELS; i++) {
-    Color newColor = newColor.fromHSL((i * p * 360 / PIXELS) % 360, 1, .25);
+    Color newColor;
+    newColor.fromHSL((i * p * 360 / PIXELS) % 360, 1, .25);
     colors[i] = newColor;
   }
 }
@@ -96,25 +116,6 @@ void hueShift(int h) {
     Color newColor;
     Color oldColor = colors[i];
     colors[i] = newColor.fromHSL(oldColor.getHue() + h, oldColor.getSat(), oldColor.getLite());
-  }
-}
-
-double rem(double q, int d) {
-  if(q < d) {
-      return q;
-  }
-  else {
-      rem(q - d, d);
-  }
-}
-
-
-double absv(double n) {
-  if (n > 0) {
-    return n;
-  }
-  else {
-    return n * -1;
   }
 }
 
